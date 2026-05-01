@@ -8,6 +8,8 @@ import com.minarath.ems.modules.employee.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.minarath.ems.modules.employee.exception.DuplicateEmailException;
+import com.minarath.ems.modules.employee.exception.EmployeeNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Creating employee with email: {}", requestDTO.getEmail());
 
         if (employeeRepository.existsByEmail(requestDTO.getEmail())) {
-            throw new RuntimeException("Employee already exists with email: " + requestDTO.getEmail());
+            throw new DuplicateEmailException("Employee already exists with email: " + requestDTO.getEmail());
         }
 
         Employee employee = Employee.builder()
@@ -54,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Fetching employee by id: {}", id);
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
         return mapToResponseDTO(employee);
     }
@@ -64,11 +66,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Updating employee with id: {}", id);
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
         if (!employee.getEmail().equals(requestDTO.getEmail())
                 && employeeRepository.existsByEmail(requestDTO.getEmail())) {
-            throw new RuntimeException("Employee already exists with email: " + requestDTO.getEmail());
+            throw new DuplicateEmailException("Employee already exists with email: " + requestDTO.getEmail());
         }
 
         employee.setFirstName(requestDTO.getFirstName());
@@ -86,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Deleting employee with id: {}", id);
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
         employeeRepository.delete(employee);
     }
