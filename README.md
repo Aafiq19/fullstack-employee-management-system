@@ -28,6 +28,7 @@ This application allows users to manage employee records efficiently with full C
 
 ## 📂 Project Structure
 
+```bash
 employee-management-system/
 │
 ├── backend/
@@ -51,28 +52,13 @@ employee-management-system/
 │               └── exception/
 │
 ├── frontend/
-│   ├── app/ (or pages/)
-│   │   ├── employees/
-│   │   │   ├── page.tsx
-│   │   │   ├── create/
-│   │   │   └── edit/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   │
+│   ├── app/
 │   ├── components/
-│   │   ├── EmployeeTable.jsx
-│   │   ├── EmployeeForm.jsx
-│   │   └── Navbar.jsx
-│   │
 │   ├── services/
-│   │   └── api.js
-│   │
-│   ├── styles/
-│   │   └── globals.css
-│   │
-│   └── package.json
+│   └── styles/
 │
 └── README.md
+```
 
 ---
 
